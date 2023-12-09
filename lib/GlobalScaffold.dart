@@ -69,6 +69,18 @@ class GlobalScaffold extends StatelessWidget {
                 Navigator.pushNamed(context, '/currency_converter');
               },
             ),
+            ListTile(
+              title: Text('Login'),
+              onTap: () {
+                Navigator.pushNamed(context, '/login');
+              },
+            ),
+            ListTile(
+              title: Text('Signup'),
+              onTap: () {
+                Navigator.pushNamed(context, '/signup');
+              },
+            ),
           ],
         ),
       ),
