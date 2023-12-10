@@ -19,36 +19,36 @@
 //       version: 1,
 //       onCreate: (Database db, int version) async {
 //         await db.execute(
-//           'CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, password TEXT)',
+//           'CREATE TABLE Users(id INTEGER PRIMARY KEY, Username TEXT, password TEXT)',
 //         );
 //       },
 //     );
 //   }
 
-//   Future<void> insertUser(String username, String password) async {
+//   Future<void> insertUser(String Username, String password) async {
 //     final db = await database;
 //     await db.insert(
-//       'users',
-//       {'username': username, 'password': password},
+//       'Users',
+//       {'Username': Username, 'password': password},
 //       conflictAlgorithm: ConflictAlgorithm.replace,
 //     );
 //   }
 
 //   Future<List<Map<String, dynamic>>> getUsers() async {
 //     final db = await database;
-//     return await db.query('users');
+//     return await db.query('Users');
 //   }
 // // }
 
 import 'package:path/path.dart';
-import 'package:flutter_application_3/user.dart';
+import 'package:flutter_application_3/User.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
-class userDatabase {
-  userDatabase._();
+class UserDatabase {
+  UserDatabase._();
 
-  static final userDatabase instance = userDatabase._();
+  static final UserDatabase instance = UserDatabase._();
 
   static Database? _database;
 
@@ -60,39 +60,39 @@ class userDatabase {
 
   initDB() async {
     WidgetsFlutterBinding.ensureInitialized();
-    return await openDatabase(join(await getDatabasesPath(), 'user.db'),
+    return await openDatabase(join(await getDatabasesPath(), 'User.db'),
         onCreate: (db, version) {
       return db.execute(
-        'CREATE TABLE user(id INTEGER PRIMARY KEY, username TEXT, password TEXT)',
+        'CREATE TABLE User(id INTEGER PRIMARY KEY, Username TEXT, password TEXT)',
       );
     }, version: 1);
   }
 
-  void insertUser(user user) async {
+  void insertUser(User User1) async {
     final Database db = await database;
 
-    await db.insert('user', user.toMap(),
+    await db.insert('User', User1.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-  Future<List<user>> users() async {
+  Future<List<User>> Users() async {
     final Database db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('user');
-    List<user> users = List.generate(maps.length, (i) {
-      return user.fromMap(maps[i]);
+    final List<Map<String, dynamic>> maps = await db.query('User');
+    List<User> Users = List.generate(maps.length, (i) {
+      return User.fromMap(maps[i]);
     });
 
-    if (users.isEmpty) {
-      for (user user in defaultUser) {
-        insertUser(user);
+    if (Users.isEmpty) {
+      for (User currentUser in defaultUser) {
+        insertUser(currentUser);
       }
-      users = defaultUser;
+      Users = defaultUser;
     }
 
-    return users;
+    return Users;
   }
 
-  final List<user> defaultUser = [
-    user(5, 'tibo', 'toto'),
+  final List<User> defaultUser = [
+    User(5, 'tibo', 'toto'),
   ]; 
 }

@@ -1,17 +1,23 @@
-class user {
-   int id;
-   String name;
-   String pass;
+class User {
+  final int id;
+  final String username;
+  final String password;
 
-  user(this.id, this.name, this.pass);
+  User(this.id, this.username, this.password);
 
   Map<String, dynamic> toMap() {
-    return {'id': id, 'name': name, 'pass': pass};
+    return {
+      'id': id,
+      'username': username,
+      'password': password,
+    };
   }
 
-  factory user.fromMap(Map<String, dynamic> map) => new user(
-        map['id'],
-        map['name'],
-        map['pass'],
-      );
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(
+      map['id'],
+      map['username'],
+      map['password'],
+    );
+  }
 }
