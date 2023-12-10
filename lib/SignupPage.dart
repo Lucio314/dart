@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/User.dart';
-import 'database_manager.dart'; // Assurez-vous d'avoir correctement importé votre gestionnaire de base de données
+import 'package:flutter_application_3/database_manager.dart'; // Assurez-vous d'avoir correctement importé votre gestionnaire de base de données
 
 class SignupPage extends StatefulWidget {
   @override
@@ -13,92 +13,104 @@ class _SignupPageState extends State<SignupPage> {
   // Créez les contrôleurs pour les champs TextField
   final TextEditingController UsernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-// ...
 
-Future<List<User>> _getUsersFromDatabase() async {
-  return UserDatabase.instance.Users();
-}
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Inscription'),
+        ),
+        body: FutureBuilder<List<User>>(
+          future: UserDatabase.instance.Users(),
+          builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
+            // List<User>? Users = snapshot.data;
+            return ListView(children: [
+              Padding(
+                padding: EdgeInsets.all(50.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    // Image ajoutée pour la stylisation de la page
+                    Image.asset(
+                      'assets/login.png',
+                      width: 100, // Ajustez la largeur selon votre design
+                      height: 200, // Ajustez la hauteur selon votre design
+                    ),
+                    SizedBox(height: 10.0),
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: Text('Inscription'),
-    ),
-    body: FutureBuilder<List<User>>(
-      future: _getUsersFromDatabase(), // Récupération des utilisateurs depuis la base de données
-      builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          // Affichage pendant le chargement des données
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          // Gestion des erreurs
-          return Center(child: Text('Erreur de chargement'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          // Aucune donnée récupérée
-          return Center(child: Text('Aucun utilisateur trouvé'));
-        } else {
-          List<User> Users = snapshot.data!;
+                    TextField(
+                      controller: UsernameController,
+                      decoration: InputDecoration(
+                        hintText: 'Nom d\'utilisateur',
+                      ),
+                    ),
+                    SizedBox(height: 20.0),
+                    SizedBox(height: 20.0),
+                    TextField(
+                      controller: passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        hintText: 'Mot de passe',
+                      ),
+                    ),
+                    SizedBox(height: 20.0),
+                    ElevatedButton(
+                      onPressed: () async {
+                        
+                        await UserDatabase.instance.initDB();
+                        String username = UsernameController.text;
+                        String password = passwordController.text;
 
-          return ListView(
-            children: [
-              // Votre code existant pour les champs TextField et le bouton d'inscription
+                        if (username.isNotEmpty && password.isNotEmpty) {
+                          List<User> users = await UserDatabase.instance.Users();
 
-              ElevatedButton(
-                onPressed: () async {
-                  String Username = UsernameController.text;
-                  String password = passwordController.text;
+                          int userCount = users.length;
+                          User newUser = User(userCount, username, password);
 
-                  if (Username.isNotEmpty && password.isNotEmpty) {
-                    int nbr = Users.length;
-                    User newUser = User(nbr, Username, password);
-                    print('object');
-                    Users.add(newUser);
+                          // Insérer les données dans la base de données
+                          UserDatabase.instance.insertUser(newUser);
 
-                    // Mettre à jour l'interface utilisateur
-                    setState(() {
-                      // Mettre à jour la liste des utilisateurs
-                      snapshot.data = Users;
-                    });
+                          // Rafraîchir l'interface utilisateur avec setState si nécessaire
+                          setState(() {
+                            // Mettre à jour la liste des utilisateurs affichée
+                            users.add(newUser);
+                          });
 
-                    // Insérer les données dans la base de données
-                    await UserDatabase.instance.initDB();
-                    await UserDatabase.instance.insertUser(newUser);
-                    // Naviguer vers une autre page après l'inscription
-                    // Vous pouvez utiliser Navigator pour naviguer vers une autre page, par exemple:
-                    // Navigator.pushReplacementNamed(context, '/home');
-                  } else {
-                    // Afficher un message d'erreur si les champs sont vides
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Erreur'),
-                          content: Text('Veuillez remplir tous les champs.'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text('OK'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
+                          // Afficher un message ou naviguer vers une autre page après l'inscription réussie
+                          // Utilisez Navigator pour naviguer vers une autre page par exemple
+                          // Navigator.pushReplacementNamed(context, '/home');
+                        } else {
+                          // Afficher un message d'erreur si les champs sont vides
+                          showDialog(
+                            // ... votre code pour l'affichage de la boîte de dialogue d'erreur
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Erreur'),
+                                content:
+                                    Text('Veuillez remplir tous les champs.'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text('OK'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
                       },
-                    );
-                  }
-                },
-                child: Text('S\'inscrire'),
+                      child: Text('S\'inscrire'),
+                    ),
+                  ],
+                ),
               ),
-            ],
-          );
-        }
-      },
-    ),
-  );
-}
-
-// ...
+            ]);
+          },
+        ));
+  }
 
   @override
   void dispose() {

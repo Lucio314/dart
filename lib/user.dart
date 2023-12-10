@@ -13,11 +13,10 @@ class User {
     };
   }
 
-  factory User.fromMap(Map<String, dynamic> map) {
-    return User(
+  factory User.fromMap(Map<String, dynamic> map) => new User(
+   
       map['id'],
       map['username'],
-      map['password'],
-    );
-  }
+      map['password']
+  );
 }
