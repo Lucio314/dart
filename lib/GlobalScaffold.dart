@@ -70,17 +70,40 @@ class GlobalScaffold extends StatelessWidget {
               },
             ),
             ListTile(
-              title: Text('Login'),
+              title: Text('Logout'),
               onTap: () {
-                Navigator.pushNamed(context, '/login');
+                showDialog(
+                  // ... votre code pour l'affichage de la boîte de dialogue d'erreur
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Déconnexion'),
+                      content: Text('Voulez-vous vraiment vous déconnecter ?'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: Text('NON'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                          child: Text('OUI'),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/login');
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
             ),
-            ListTile(
-              title: Text('Signup'),
-              onTap: () {
-                Navigator.pushNamed(context, '/signup');
-              },
-            ),
+            // ListTile(
+            //   title: Text('Signup'),
+            //   onTap: () {
+            //     Navigator.pushNamed(context, '/signup');
+            //   },
+            // ),
           ],
         ),
       ),

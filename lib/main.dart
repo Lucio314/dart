@@ -45,8 +45,8 @@ class MyApp extends StatelessWidget {
         '/temperature_converter': (context) => GlobalScaffold(
               body: TemperatureConverter(title: 'Température'),
             ),
-        '/login': (context) => GlobalScaffold(body: LoginPage()),
-        '/signup': (context) => GlobalScaffold(body: SignupPage()),
+        '/login': (context) => Scaffold(body: LoginPage()),
+        '/signup': (context) => Scaffold(body: SignupPage()),
       },
     );
   }
@@ -65,7 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(
       const Duration(seconds: 5),
-      () => Navigator.of(context).pushReplacementNamed('/home'),
+      () => Navigator.of(context).pushReplacementNamed('/login'),
     );
   }
 

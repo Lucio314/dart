@@ -18,7 +18,7 @@ class _MySplashScreenState extends State<MySplashScreen> {
     super.initState();
     Timer(
       const Duration(seconds: 5),
-      () => Navigator.of(context).pushReplacementNamed('/home'),
+      () => Navigator.of(context).pushReplacementNamed('/login'),
     );
   }
 

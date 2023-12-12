@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/HomePage.dart';
+import 'package:flutter_application_3/LoginPage.dart';
 import 'package:flutter_application_3/User.dart';
 import 'package:flutter_application_3/database_manager.dart'; // Assurez-vous d'avoir correctement importé votre gestionnaire de base de données
 
@@ -106,6 +107,13 @@ Navigator.push(
                       },
                       child: Text('S\'inscrire'),
                     ),
+                    Text('COMPTE EXISTANT? '),
+              TextButton(onPressed: () {
+                 Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+              }, child: Text('Se connecter'))
                   ],
                 ),
               ),
