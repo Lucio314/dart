@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class CurrencyConverter extends StatefulWidget {
   CurrencyConverter({Key? key, required this.title}) : super(key: key);
@@ -12,102 +14,212 @@ class CurrencyConverter extends StatefulWidget {
 class _CurrencyConverterState extends State<CurrencyConverter> {
   double valeur = 0;
   double _convertedValue = 0;
-  String uniteDepart = 'fcfa';
-  String uniteDestination = 'eur';
+  String uniteDepart = 'EUR'; // Monnaie de départ par défaut
+  String uniteDestination = 'XOF'; // Monnaie de destination par défaut
 
-  final List<String> currencies = ['fcfa', 'eur', 'usd', 'gbp'];
+  final List<String> currencies = [
+    'AED',
+    'AFN',
+    'ALL',
+    'AMD',
+    'ANG',
+    'AOA',
+    'ARS',
+    'AUD',
+    'AWG',
+    'AZN',
+    'BAM',
+    'BBD',
+    'BDT',
+    'BGN',
+    'BHD',
+    'BIF',
+    'BMD',
+    'BND',
+    'BOB',
+    'BRL',
+    'BSD',
+    'BTN',
+    'BWP',
+    'BYN',
+    'BZD',
+    'CAD',
+    'CDF',
+    'CHF',
+    'CLP',
+    'CNY',
+    'COP',
+    'CRC',
+    'CUP',
+    'CVE',
+    'CZK',
+    'DJF',
+    'DKK',
+    'DOP',
+    'DZD',
+    'EGP',
+    'ERN',
+    'ETB',
+    'EUR',
+    'FJD',
+    'FKP',
+    'FOK',
+    'GBP',
+    'GEL',
+    'GGP',
+    'GHS',
+    'GIP',
+    'GMD',
+    'GNF',
+    'GTQ',
+    'GYD',
+    'HKD',
+    'HNL',
+    'HRK',
+    'HTG',
+    'HUF',
+    'IDR',
+    'ILS',
+    'IMP',
+    'INR',
+    'IQD',
+    'IRR',
+    'ISK',
+    'JEP',
+    'JMD',
+    'JOD',
+    'JPY',
+    'KES',
+    'KGS',
+    'KHR',
+    'KID',
+    'KMF',
+    'KRW',
+    'KWD',
+    'KYD',
+    'KZT',
+    'LAK',
+    'LBP',
+    'LKR',
+    'LRD',
+    'LSL',
+    'LYD',
+    'MAD',
+    'MDL',
+    'MGA',
+    'MKD',
+    'MMK',
+    'MNT',
+    'MOP',
+    'MRU',
+    'MUR',
+    'MVR',
+    'MWK',
+    'MXN',
+    'MYR',
+    'MZN',
+    'NAD',
+    'NGN',
+    'NIO',
+    'NOK',
+    'NPR',
+    'NZD',
+    'OMR',
+    'PAB',
+    'PEN',
+    'PGK',
+    'PHP',
+    'PKR',
+    'PLN',
+    'PYG',
+    'QAR',
+    'RON',
+    'RSD',
+    'RUB',
+    'RWF',
+    'SAR',
+    'SBD',
+    'SCR',
+    'SDG',
+    'SEK',
+    'SGD',
+    'SHP',
+    'SLL',
+    'SOS',
+    'SRD',
+    'SSP',
+    'STN',
+    'SYP',
+    'SZL',
+    'THB',
+    'TJS',
+    'TMT',
+    'TND',
+    'TOP',
+    'TRY',
+    'TTD',
+    'TVD',
+    'TWD',
+    'TZS',
+    'UAH',
+    'UGX',
+    'UYU',
+    'UZS',
+    'VES',
+    'VND',
+    'VUV',
+    'WST',
+    'XAF',
+    'XCD',
+    'XDR',
+    'XOF',
+    'XPF',
+    'YER',
+    'ZAR',
+    'ZMW',
+    'ZWL'
+  ];
 
-  void _converterCurrency() {
-    setState(() {
-      _convertedValue = convertCurrency(
-        valeur: valeur,
-        uniteDepart: uniteDepart,
-        uniteDestination: uniteDestination,
-      );
-    });
-  }
-
-  double convertCurrency(
-      {required double valeur,
-      required String uniteDepart,
-      required String uniteDestination}) {
-    double convertedPrice = 0.0;
-    switch (uniteDepart.toUpperCase()) {
-      case 'FCFA':
-        convertedPrice = convertFromFcfa(valeur, uniteDestination);
-        break;
-      case 'USD':
-        convertedPrice = convertFromDollard(valeur, uniteDestination);
-        break;
-      case 'EUR':
-        convertedPrice = convertFromEuro(valeur, uniteDestination);
-        break;
-      case 'GBP':
-        convertedPrice = convertFromLivre(valeur, uniteDestination);
-        break;
-      default:
-        print('Devise de départ non reconnue');
+  Future<void> _converterCurrency() async {
+    try {
+      double convertedPrice = await convertCurrency();
+      setState(() {
+        _convertedValue = convertedPrice;
+      });
+    } catch (e) {
+      print('Erreur lors de la conversion : $e');
     }
-    return convertedPrice;
   }
 
-  double convertFromFcfa(double price, String currencyTo) {
-    final Map<String, double> rates = {
-      'usd': 0.001524,
-      'eur': 0.001673,
-      'gbp': 0.001318,
-    };
+  Future<double> convertCurrency() async {
+    final String apiKey = '3b446594dc3aa5087114fd6fce0a44be';
+    final String apiUrl =
+        'http://apilayer.net/api/live?access_key=$apiKey&currencies=$uniteDepart,$uniteDestination&format=1';
 
-    if (rates.containsKey(currencyTo.toLowerCase())) {
-      return price * rates[currencyTo.toLowerCase()]!;
+    final response = await http.get(Uri.parse(apiUrl));
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+
+      if (data.containsKey('quotes')) {
+        Map<String, dynamic> quotes = data['quotes'];
+
+        // Construire le nom des devises pour trouver le taux de conversion
+        String currencyPair = '$uniteDepart$uniteDestination';
+        double exchangeRate = quotes[currencyPair];
+
+        if (exchangeRate != null) {
+          return valeur * exchangeRate;
+        } else {
+          print('Erreur de conversion');
+          return 0.0;
+        }
+      } else {
+        print('Pas de données de taux de change disponibles');
+        return 0.0;
+      }
     } else {
-      print('Devise de destination non reconnue');
-      return 0.0;
-    }
-  }
-
-  double convertFromDollard(double price, String currencyTo) {
-    final Map<String, double> rates = {
-      'fcfa': 597.7516,
-      'eur': 0.9113,
-      'gbp': 0.7877,
-    };
-
-    if (rates.containsKey(currencyTo.toLowerCase())) {
-      return price * rates[currencyTo.toLowerCase()]!;
-    } else {
-      print('Devise de destination non reconnue');
-      return 0.0;
-    }
-  }
-
-  double convertFromEuro(double price, String currencyTo) {
-    final Map<String, double> rates = {
-      'fcfa': 655.957,
-      'usd': 1.0974,
-      'gbp': 0.8644,
-    };
-
-    if (rates.containsKey(currencyTo.toLowerCase())) {
-      return price * rates[currencyTo.toLowerCase()]!;
-    } else {
-      print('Devise de destination non reconnue');
-      return 0.0;
-    }
-  }
-
-  double convertFromLivre(double price, String currencyTo) {
-    final Map<String, double> rates = {
-      'fcfa': 758.8408,
-      'usd': 1.2695,
-      'eur': 1.1569,
-    };
-
-    if (rates.containsKey(currencyTo.toLowerCase())) {
-      return price * rates[currencyTo.toLowerCase()]!;
-    } else {
-      print('Devise de destination non reconnue');
-      return 0.0;
+      throw Exception('Failed to load exchange rates');
     }
   }
 
@@ -129,7 +241,6 @@ class _CurrencyConverterState extends State<CurrencyConverter> {
               height: 350,
             ),
           ),
-          // Reste des éléments en dessous de l'image
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
