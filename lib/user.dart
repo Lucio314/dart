@@ -1,7 +1,7 @@
 class User {
-  final int id;
-  final String? username;
-  final String password;
+   int id;
+   String? username;
+   String password;
 
   User(this.id, this.username, this.password);
 

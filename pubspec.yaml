@@ -41,6 +41,7 @@ dependencies:
   sqflite_common_ffi: ^2.3.1
   mysql1: ^0.20.0
   http: ^1.1.2
+  flutter_svg: ^2.0.9
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +75,10 @@ flutter:
     - assets/devises.png
     - assets/app.png
     - assets/app1.png
+    - assets/svg/highway.svg
+    - assets/svg/weight.svg
+    - assets/svg/temp.svg
+    - assets/svg/devise.svg
     # - images/a_dot_burr.jpeg
     # - images/a_dot_ham.jpeg
 

@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
               body: MassConverter(title: 'Masse'),
             ),
         '/distance_converter': (context) => GlobalScaffold(
-              body: DistanceConverter(title: 'distance'),
+              body: DistanceConverter(title: 'Distance'),
             ),
         '/currency_converter': (context) => GlobalScaffold(
               body: CurrencyConverter(title: 'Devises'),
@@ -45,8 +45,8 @@ class MyApp extends StatelessWidget {
         '/temperature_converter': (context) => GlobalScaffold(
               body: TemperatureConverter(title: 'Température'),
             ),
-        '/login': (context) => GlobalScaffold(body: LoginPage()),
-        '/signup': (context) => GlobalScaffold(body: SignupPage()),
+        '/login': (context) => Scaffold(body: LoginPage()),
+        '/signup': (context) => Scaffold(body: SignupPage()),
       },
     );
   }
@@ -64,25 +64,21 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-      const Duration(seconds: 5),
-      () => Navigator.of(context).pushReplacementNamed('/home'),
+      const Duration(seconds: 3),
+      () => Navigator.of(context).pushReplacementNamed('/login'),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(255, 243, 235, 1),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset('assets/app.png'),
-            SizedBox(
-              height: 10,
-              width: 10,
-            ),
-            SpinKitFadingCircle(
-              color: const Color.fromARGB(255, 5, 7, 8),
+            SpinKitDualRing(
+              color: Color.fromARGB(181, 93, 64, 8),
               size: 80.0,
             )
           ],
@@ -186,6 +182,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
+        backgroundColor: Color.fromRGBO(255, 243, 235, 1),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -203,14 +200,14 @@ class HomeScreen extends StatelessWidget {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Color.fromRGBO(181, 93, 64, 1),
               ),
               child: Text(
                 'Menu',
                 style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
+                    color: Color.fromRGBO(255, 243, 235, 1),
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold),
               ),
             ),
             ListTile(

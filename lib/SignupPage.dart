@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_3/HomePage.dart';
+import 'package:flutter_application_3/LoginPage.dart';
 import 'package:flutter_application_3/User.dart';
 import 'package:flutter_application_3/database_manager.dart'; // Assurez-vous d'avoir correctement importé votre gestionnaire de base de données
 
@@ -56,13 +58,13 @@ class _SignupPageState extends State<SignupPage> {
                     SizedBox(height: 20.0),
                     ElevatedButton(
                       onPressed: () async {
-                        
                         await UserDatabase.instance.initDB();
                         String username = UsernameController.text;
                         String password = passwordController.text;
 
                         if (username.isNotEmpty && password.isNotEmpty) {
-                          List<User> users = await UserDatabase.instance.Users();
+                          List<User> users =
+                              await UserDatabase.instance.Users();
 
                           int userCount = users.length;
                           User newUser = User(userCount, username, password);
@@ -76,9 +78,10 @@ class _SignupPageState extends State<SignupPage> {
                             users.add(newUser);
                           });
 
-                          // Afficher un message ou naviguer vers une autre page après l'inscription réussie
-                          // Utilisez Navigator pour naviguer vers une autre page par exemple
-                          // Navigator.pushReplacementNamed(context, '/home');
+Navigator.push(
+  context,
+  MaterialPageRoute(builder: (context) => HomePage()),
+);
                         } else {
                           // Afficher un message d'erreur si les champs sont vides
                           showDialog(
@@ -104,6 +107,13 @@ class _SignupPageState extends State<SignupPage> {
                       },
                       child: Text('S\'inscrire'),
                     ),
+                    Text('COMPTE EXISTANT? '),
+              TextButton(onPressed: () {
+                 Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+              }, child: Text('Se connecter'))
                   ],
                 ),
               ),

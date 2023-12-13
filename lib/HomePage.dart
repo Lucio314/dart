@@ -1,147 +1,180 @@
 import 'package:flutter/material.dart';
-
-class MyPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    // Dessinez ce que vous voulez ici en utilisant les méthodes de Canvas
-    final paint = Paint()
-      ..color = Colors.blue
-      ..strokeWidth = 2.0
-      ..style = PaintingStyle.fill;
-
-    // Un exemple de dessin : un cercle au centre
-    canvas.drawCircle(Offset(0, 0), 100.0, paint);
-    canvas.drawCircle(Offset(400, 400), 100.0, paint);
-    canvas.drawCircle(Offset(0, 600), 100.0, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    // Retourne true si le dessin doit être mis à jour lors d'un rebuild
-    return false; // Mettez à true si le dessin change en fonction de données externes
-  }
-}
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: ListView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 60),
-              child: Column(
-                children: [
-                  CustomPaint(
-                    painter:
-                        MyPainter(), // Utilisation de votre CustomPainter ici
-                    size: Size(350, 00), // Taille de votre dessin
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/mass_converter');
-                    },
-                    child: Card(
-                      color: Colors.white, // Arrière-plan blanc pour la carte
-                      child: Column(
-                        children: [
-                          Text(
-                            'Convertisseur de masse', // Texte au-dessus de la carte
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          Image.asset(
-                            'assets/masse.png',
-                            height: 250, // Taille de votre image
-                            width: 500,
-                          ),
-                        ],
+    // double screenWidth = MediaQuery.of(context).size.height;
+    // double halfScreenWidth = (screenWidth / 8);
+    return MaterialApp(
+      home: Scaffold(
+        body: Container(
+            decoration: BoxDecoration(color: Color.fromRGBO(255, 243, 235, 1)),
+            height: double.infinity,
+            width: double.infinity,
+            child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: Container(
+                  // margin: EdgeInsets.symmetric(vertical: halfScreenWidth),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, '/temperature_converter');
+                                },
+                                child: Container(
+                                    height: 150,
+                                    width: 145,
+                                    decoration: BoxDecoration(
+                                        color: Color.fromRGBO(250, 223, 206, 1),
+                                        borderRadius:
+                                            BorderRadius.circular(25)),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: SvgPicture.asset(
+                                            'assets/svg/temp.svg',
+                                            width: 60,
+                                            height: 60,
+                                          ),
+                                        )
+                                      ],
+                                    ))),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, '/mass_converter');
+                                },
+                                child: Container(
+                                    height: 150,
+                                    width: 145,
+                                    decoration: BoxDecoration(
+                                        color: Color.fromRGBO(250, 223, 206, 1),
+                                        borderRadius:
+                                            BorderRadius.circular(25)),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: SvgPicture.asset(
+                                            'assets/svg/weight.svg',
+                                            width: 60,
+                                            height: 60,
+                                          ),
+                                        )
+                                      ],
+                                    ))),
+                          ],
+                        ),
                       ),
-                    ),
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, '/currency_converter');
+                                },
+                                child: Container(
+                                    height: 150,
+                                    width: 145,
+                                    decoration: BoxDecoration(
+                                        color: Color.fromRGBO(250, 223, 206, 1),
+                                        borderRadius:
+                                            BorderRadius.circular(25)),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: SvgPicture.asset(
+                                            'assets/svg/devise.svg',
+                                            width: 60,
+                                            height: 60,
+                                          ),
+                                        )
+                                      ],
+                                    ))),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, '/distance_converter');
+                                },
+                                child: Container(
+                                    height: 150,
+                                    width: 145,
+                                    decoration: BoxDecoration(
+                                        color: Color.fromRGBO(250, 223, 206, 1),
+                                        borderRadius:
+                                            BorderRadius.circular(25)),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: SvgPicture.asset(
+                                            'assets/svg/highway.svg',
+                                            width: 60,
+                                            height: 60,
+                                          ),
+                                        )
+                                      ],
+                                    ))),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
-                  SizedBox(height: 8),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/distance_converter');
-                    },
-                    child: Card(
-                      color: Colors.white,
-                      child: Column(
-                        children: [
-                          Text(
-                            'Convertisseur de distance',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          Image.asset(
-                            'assets/Distance.png',
-                            height: 250,
-                            width: 500,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/currency_converter');
-                    },
-                    child: Card(
-                      color: Colors.white,
-                      child: Column(
-                        children: [
-                          Text(
-                            'Convertisseur de devise',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          Image.asset(
-                            'assets/devises.png',
-                            height: 250,
-                            width: 500,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/temperature_converter');
-                    },
-                    child: Card(
-                      color: Colors.white,
-                      child: Column(
-                        children: [
-                          Text(
-                            'Convertisseur de température',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          Image.asset(
-                            'assets/temperature.png',
-                            height: 250,
-                            width: 500,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  CustomPaint(
-                    painter:
-                        MyPainter(), // Utilisation de votre CustomPainter ici
-                    size: Size(500, 500), // Taille de votre dessin
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+                ))),
       ),
     );
+  }
+}
+
+class MyCustomPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color = Color.fromRGBO(204, 202, 90, 1)
+      ..strokeWidth = 2.0
+      ..style = PaintingStyle.fill;
+
+    final center = Offset(size.width / 7, size.height / 10);
+    final radius = size.width / 3;
+
+    // Dessine un cercle au centre de la zone de dessin
+    canvas.drawCircle(center, radius, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+class RectanglePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color = Color.fromRGBO(93, 144, 253, 1)
+      ..strokeWidth = 4.0
+      ..style = PaintingStyle.fill;
+
+    final rect = Rect.fromPoints(Offset(size.width / 4, size.height / 4),
+        Offset(3 * size.width / 4, 3 * size.height / 4));
+
+    canvas.drawRect(rect, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }
