@@ -12,6 +12,7 @@ class GlobalScaffold extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         // title: const Text(''),
+        backgroundColor: Color.fromRGBO(255, 243, 235, 1),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -24,89 +25,86 @@ class GlobalScaffold extends StatelessWidget {
         ),
       ),
       drawer: Drawer(
+          child: Container(
+        decoration: BoxDecoration(color: Color.fromRGBO(255, 243, 235, 1)),
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Color.fromRGBO(181, 93, 64, 1),
               ),
               child: Text(
                 'Menu',
                 style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
+                    color: Color.fromRGBO(255, 243, 235, 1),
+                    fontSize: 42,
+                    fontWeight: FontWeight.w800),
               ),
             ),
             ListTile(
-              title: Text('Home'),
+              title: Text(
+                'Home',
+                style: TextStyle(
+                    color: Color.fromRGBO(73, 57, 52, 1),
+                    fontSize: 22,
+                    fontWeight: FontWeight.w300),
+              ),
               onTap: () {
                 Navigator.pushNamed(context, '/home');
               },
             ),
             ListTile(
-              title: Text('Distance'),
+              title: Text(
+                'Distance',
+                style: TextStyle(
+                    color: Color.fromRGBO(73, 57, 52, 1),
+                    fontSize: 22,
+                    fontWeight: FontWeight.w300),
+              ),
               onTap: () {
                 Navigator.pushNamed(context, '/distance_converter');
               },
             ),
             ListTile(
-              title: Text('Masse'),
+              title: Text(
+                'Masse',
+                style: TextStyle(
+                    color: Color.fromRGBO(73, 57, 52, 1),
+                    fontSize: 22,
+                    fontWeight: FontWeight.w300),
+              ),
               onTap: () {
                 Navigator.pushNamed(context, '/mass_converter');
               },
             ),
             ListTile(
-              title: Text('Température'),
+              title: Text(
+                'Température',
+                style: TextStyle(
+                    color: Color.fromRGBO(73, 57, 52, 1),
+                    fontSize: 22,
+                    fontWeight: FontWeight.w300),
+              ),
               onTap: () {
                 Navigator.pushNamed(context, '/temperature_converter');
               },
             ),
             ListTile(
-              title: Text('Devises'),
+              title: Text(
+                'Devises',
+                style: TextStyle(
+                    color: Color.fromRGBO(73, 57, 52, 1),
+                    fontSize: 22,
+                    fontWeight: FontWeight.w300),
+              ),
               onTap: () {
                 Navigator.pushNamed(context, '/currency_converter');
               },
             ),
-            ListTile(
-              title: Text('Logout'),
-              onTap: () {
-                showDialog(
-                  // ... votre code pour l'affichage de la boîte de dialogue d'erreur
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Déconnexion'),
-                      content: Text('Voulez-vous vraiment vous déconnecter ?'),
-                      actions: <Widget>[
-                        TextButton(
-                          child: Text('NON'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        TextButton(
-                          child: Text('OUI'),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/login');
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
-            // ListTile(
-            //   title: Text('Signup'),
-            //   onTap: () {
-            //     Navigator.pushNamed(context, '/signup');
-            //   },
-            // ),
           ],
         ),
-      ),
+      )),
       body: body,
     );
   }
