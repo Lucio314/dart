@@ -39,17 +39,13 @@
 //     return await db.query('Users');
 //   }
 // // }
-
 import 'package:path/path.dart';
 import 'package:flutter_application_3/User.dart';
-import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 class UserDatabase {
   UserDatabase._();
-
   static final UserDatabase instance = UserDatabase._();
-
   static Database? _database;
 
   Future<Database> get database async {
@@ -59,40 +55,24 @@ class UserDatabase {
   }
 
   initDB() async {
-    WidgetsFlutterBinding.ensureInitialized();
     return await openDatabase(join(await getDatabasesPath(), 'User.db'),
-        onCreate: (db, version) {
-      return db.execute(
-        'CREATE TABLE User(id INTEGER PRIMARY KEY, Username TEXT, password TEXT)',
+        onCreate: (db, version) async {
+      await db.execute(
+        'CREATE TABLE User(id INTEGER PRIMARY KEY NOT NULL AUTOINCREMENT, Username TEXT, password TEXT)',
       );
     }, version: 1);
   }
 
-  void insertUser(User User1) async {
-    final Database db = await database;
-
-    await db.insert('User', User1.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+  void insertUser(User user) async {
+    final Database db = await instance.database;
+    await db.insert('User', user.toMap());
   }
 
-  Future<List<User>> Users() async {
-    final Database db = await database;
+  Future<List<User>> getUsers() async {
+    final Database db = await instance.database;
     final List<Map<String, dynamic>> maps = await db.query('User');
-    List<User> Users = List.generate(maps.length, (i) {
+    return List.generate(maps.length, (i) {
       return User.fromMap(maps[i]);
     });
-
-    if (Users.isEmpty) {
-      for (User currentUser in defaultUser) {
-        insertUser(currentUser);
-      }
-      Users = defaultUser;
-    }
-
-    return Users;
   }
-
-  final List<User> defaultUser = [
-    User(5, 'tibo', 'toto'),
-  ]; 
 }

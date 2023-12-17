@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_3/GlobalScaffold.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatelessWidget {
@@ -6,133 +7,131 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // double screenWidth = MediaQuery.of(context).size.height;
-    // double halfScreenWidth = (screenWidth / 8);
-    return MaterialApp(
-      home: Scaffold(
-        body: Container(
-            decoration: BoxDecoration(color: Color.fromRGBO(255, 243, 235, 1)),
-            height: double.infinity,
-            width: double.infinity,
-            child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Container(
-                  // margin: EdgeInsets.symmetric(vertical: halfScreenWidth),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    // crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return GlobalScaffold(
+      body: Container(
+        decoration: BoxDecoration(color: Color.fromRGBO(255, 243, 235, 1)),
+        height: double.infinity,
+        width: double.infinity,
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/temperature_converter');
+                      },
+                      child: Container(
+                        height: 150,
+                        width: 145,
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(250, 223, 206, 1),
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Column(
                           children: <Widget>[
-                            GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, '/temperature_converter');
-                                },
-                                child: Container(
-                                    height: 150,
-                                    width: 145,
-                                    decoration: BoxDecoration(
-                                        color: Color.fromRGBO(250, 223, 206, 1),
-                                        borderRadius:
-                                            BorderRadius.circular(25)),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: SvgPicture.asset(
-                                            'assets/svg/temp.svg',
-                                            width: 60,
-                                            height: 60,
-                                          ),
-                                        )
-                                      ],
-                                    ))),
-                            GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, '/mass_converter');
-                                },
-                                child: Container(
-                                    height: 150,
-                                    width: 145,
-                                    decoration: BoxDecoration(
-                                        color: Color.fromRGBO(250, 223, 206, 1),
-                                        borderRadius:
-                                            BorderRadius.circular(25)),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: SvgPicture.asset(
-                                            'assets/svg/weight.svg',
-                                            width: 60,
-                                            height: 60,
-                                          ),
-                                        )
-                                      ],
-                                    ))),
+                            Expanded(
+                              child: SvgPicture.asset(
+                                'assets/svg/temp.svg',
+                                width: 60,
+                                height: 60,
+                              ),
+                            )
                           ],
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/mass_converter');
+                      },
+                      child: Container(
+                        height: 150,
+                        width: 145,
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(250, 223, 206, 1),
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Column(
                           children: <Widget>[
-                            GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, '/currency_converter');
-                                },
-                                child: Container(
-                                    height: 150,
-                                    width: 145,
-                                    decoration: BoxDecoration(
-                                        color: Color.fromRGBO(250, 223, 206, 1),
-                                        borderRadius:
-                                            BorderRadius.circular(25)),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: SvgPicture.asset(
-                                            'assets/svg/devise.svg',
-                                            width: 60,
-                                            height: 60,
-                                          ),
-                                        )
-                                      ],
-                                    ))),
-                            GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, '/distance_converter');
-                                },
-                                child: Container(
-                                    height: 150,
-                                    width: 145,
-                                    decoration: BoxDecoration(
-                                        color: Color.fromRGBO(250, 223, 206, 1),
-                                        borderRadius:
-                                            BorderRadius.circular(25)),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: SvgPicture.asset(
-                                            'assets/svg/highway.svg',
-                                            width: 60,
-                                            height: 60,
-                                          ),
-                                        )
-                                      ],
-                                    ))),
+                            Expanded(
+                              child: SvgPicture.asset(
+                                'assets/svg/weight.svg',
+                                width: 60,
+                                height: 60,
+                              ),
+                            )
                           ],
                         ),
-                      )
-                    ],
-                  ),
-                ))),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/currency_converter');
+                      },
+                      child: Container(
+                        height: 150,
+                        width: 145,
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(250, 223, 206, 1),
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Expanded(
+                              child: SvgPicture.asset(
+                                'assets/svg/devise.svg',
+                                width: 60,
+                                height: 60,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/distance_converter');
+                      },
+                      child: Container(
+                        height: 150,
+                        width: 145,
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(250, 223, 206, 1),
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Expanded(
+                              child: SvgPicture.asset(
+                                'assets/svg/highway.svg',
+                                width: 60,
+                                height: 60,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

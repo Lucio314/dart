@@ -188,35 +188,28 @@ class _CurrencyConverterState extends State<CurrencyConverter> {
       });
     } catch (e) {
       print('Erreur lors de la conversion : $e');
+      setState(() {
+        _convertedValue = 0;
+      });
     }
   }
 
   Future<double> convertCurrency() async {
-    final String apiKey = '3b446594dc3aa5087114fd6fce0a44be';
+    final String apiKey = '5d6d9cf413c032dcded2d037';
     final String apiUrl =
-        'http://apilayer.net/api/live?access_key=$apiKey&currencies=$uniteDepart,$uniteDestination&format=1';
+        'https://v6.exchangeratesapi.io/latest?base=$uniteDepart&access_key=$apiKey';
 
     final response = await http.get(Uri.parse(apiUrl));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
+      final Map<String, dynamic> rates = data['rates'];
 
-      if (data.containsKey('quotes')) {
-        Map<String, dynamic> quotes = data['quotes'];
-
-        // Construire le nom des devises pour trouver le taux de conversion
-        String currencyPair = '$uniteDepart$uniteDestination';
-        double exchangeRate = quotes[currencyPair];
-
-        if (exchangeRate != null) {
-          return valeur * exchangeRate;
-        } else {
-          print('Erreur de conversion');
-          return 0.0;
-        }
+      if (rates.containsKey(uniteDestination)) {
+        double exchangeRate = rates[uniteDestination];
+        return valeur * exchangeRate;
       } else {
-        print('Pas de données de taux de change disponibles');
-        return 0.0;
+        throw Exception('Devise de destination non reconnue');
       }
     } else {
       throw Exception('Failed to load exchange rates');
@@ -232,11 +225,10 @@ class _CurrencyConverterState extends State<CurrencyConverter> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          // Image au-dessus des autres éléments
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 85.0, vertical: 5),
             child: Image.asset(
-              'assets/devises.png', // Chemin de votre image de devises
+              'assets/devises.png',
               width: 350,
               height: 350,
             ),

@@ -6,7 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
 class MySplashScreen extends StatefulWidget {
-  const MySplashScreen({super.key});
+  const MySplashScreen({Key? key}) : super(key: key);
 
   @override
   State<MySplashScreen> createState() => _MySplashScreenState();
@@ -24,61 +24,59 @@ class _MySplashScreenState extends State<MySplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Container(
       decoration: BoxDecoration(color: Color.fromRGBO(22, 25, 37, 1)),
       child: Container(
-          child: Stack(
-        children: [
-          Container(
-            height: 380,
-            width: 380,
-            child: CustomPaint(
-              painter: MyCustomPainter(),
+        child: Stack(
+          children: [
+            Container(
+              height: screenHeight * 0.7,
+              width: screenHeight * 0.7,
+              child: CustomPaint(
+                painter: MyCustomPainter(),
+              ),
             ),
-          ),
-          Center(
+            Center(
               child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Text(
-                'CONVERSION',
-                // style: GoogleFonts.poppins(
-                //     fontSize: 32.0,
-                //     fontWeight: FontWeight.bold,
-                //     color: Color.fromRGBO(255, 254, 244, 1)),
-                // strutStyle: StrutStyle(leading: 0),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'CONVERSION',
+                    // Vos styles de texte ici...
+                  ),
+                  Text(
+                    ' .',
+                    // Vos styles de texte ici...
+                  ),
+                  SpinKitFadingCircle(
+                    color: Color.fromARGB(255, 5, 8, 8),
+                    size: screenWidth * 0.2,
+                  ),
+                ],
               ),
-              Text(
-                ' .',
-                // style: GoogleFonts.poppins(
-                //     fontSize: 52.0,
-                //     fontWeight: FontWeight.bold,
-                //     color: Color.fromRGBO(252, 210, 60, 1)),
-                // strutStyle: StrutStyle(leading: 0),
-              ),
-              SpinKitFadingCircle(
-                color: Color.fromARGB(255, 5, 8, 8),
-                size: 80.0,
-              )
-            ],
-          )),
-          Positioned(
-              bottom: -180,
-              right: -180,
+            ),
+            Positioned(
+              bottom: -screenHeight * 0.3,
+              right: -screenWidth * 0.3,
               child: Transform.rotate(
                 angle: 70 * 3.141592653589793 / 180,
                 child: CustomPaint(
                   painter: RectanglePainter(),
-                  size: Size(410.0, 410.0),
+                  size: Size(screenWidth * 0.7, screenHeight * 0.7),
                 ),
-              ))
-        ],
-      )),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
+
+// Les peintres personnalisés restent inchangés
 
 class MyCustomPainter extends CustomPainter {
   @override
