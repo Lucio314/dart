@@ -11,7 +11,6 @@ class GlobalScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // title: const Text(''),
         backgroundColor: Color.fromRGBO(255, 243, 235, 1),
         leading: Builder(
           builder: (BuildContext context) {
@@ -102,6 +101,41 @@ class GlobalScaffold extends StatelessWidget {
                 Navigator.pushNamed(context, '/currency_converter');
               },
             ),
+            ListTile(
+              title: Text('Logout'),
+              onTap: () {
+                showDialog(
+                  // ... votre code pour l'affichage de la boîte de dialogue d'erreur
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Déconnexion'),
+                      content: Text('Voulez-vous vraiment vous déconnecter ?'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: Text('NON'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                          child: Text('OUI'),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/login');
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+            // ListTile(
+            //   title: Text('Signup'),
+            //   onTap: () {
+            //     Navigator.pushNamed(context, '/signup');
+            //   },
+            // ),
           ],
         ),
       )),

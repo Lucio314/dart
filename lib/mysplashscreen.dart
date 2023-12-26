@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-// import 'package:google_fonts/google_fonts.dart';
-
 class MySplashScreen extends StatefulWidget {
   const MySplashScreen({Key? key}) : super(key: key);
 
@@ -24,50 +22,38 @@ class _MySplashScreenState extends State<MySplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
-    return Container(
-      decoration: BoxDecoration(color: Color.fromRGBO(22, 25, 37, 1)),
-      child: Container(
-        child: Stack(
-          children: [
-            Container(
-              height: screenHeight * 0.7,
-              width: screenHeight * 0.7,
-              child: CustomPaint(
-                painter: MyCustomPainter(),
+    return Scaffold(
+      backgroundColor: Colors
+          .blueGrey[900], // Utilisation d'une couleur prédéfinie de Flutter
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'CONVERSION',
+              style: TextStyle(
+                color: Colors.white, // Couleur du texte en blanc
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'CONVERSION',
-                    // Vos styles de texte ici...
+            SizedBox(height: 10.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  '.',
+                  style: TextStyle(
+                    color: Colors.white, // Couleur du texte en blanc
+                    fontSize: 24.0,
                   ),
-                  Text(
-                    ' .',
-                    // Vos styles de texte ici...
-                  ),
-                  SpinKitFadingCircle(
-                    color: Color.fromARGB(255, 5, 8, 8),
-                    size: screenWidth * 0.2,
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              bottom: -screenHeight * 0.3,
-              right: -screenWidth * 0.3,
-              child: Transform.rotate(
-                angle: 70 * 3.141592653589793 / 180,
-                child: CustomPaint(
-                  painter: RectanglePainter(),
-                  size: Size(screenWidth * 0.7, screenHeight * 0.7),
                 ),
-              ),
+                SizedBox(width: 10.0),
+                SpinKitFadingCircle(
+                  color: Colors.blue, // Couleur du spinner en bleu
+                  size: 50.0,
+                ),
+              ],
             ),
           ],
         ),

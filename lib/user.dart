@@ -1,9 +1,9 @@
 class User {
-   int id;
-   String? username;
-   String password;
+  final int? id;
+  final String username;
+  final String password;
 
-  User(this.id, this.username, this.password);
+  User({this.id, required this.username, required this.password});
 
   Map<String, dynamic> toMap() {
     return {
@@ -13,10 +13,11 @@ class User {
     };
   }
 
-  factory User.fromMap(Map<String, dynamic> map) => new User(
-   
-      map['id'],
-      map['username'],
-      map['password']
-  );
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(
+      id: map['id'] ?? 0,
+      username: map['username'] ?? "null",
+      password: map['password'] ?? "null",
+    );
+  }
 }
